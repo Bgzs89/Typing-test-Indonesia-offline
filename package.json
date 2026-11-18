@@ -1,0 +1,39 @@
+{
+  "name": "typing-test-indonesia",
+  "version": "1.0.0",
+  "description": "Aplikasi typing test offline bahasa Indonesia",
+  "main": "main.cjs",
+  "author": "Typing Test Indonesia",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "latest"
+  },
+  "build": {
+    "appId": "id.typingtest.indonesia",
+    "productName": "Typing Test Indonesia",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "index.html",
+      "style.css",
+      "app.js",
+      "sw.js",
+      "manifest.json",
+      "data/**/*",
+      "*.ttf",
+      "main.cjs",
+      "icon.png"
+    ],
+    "win": {
+      "target": "portable",
+      "artifactName": "Typing-Test-Indonesia-${version}.exe",
+      "icon": "icon.png"
+    }
+  }
+}

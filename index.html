@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Test Indonesia</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="theme-color" content="#2563eb">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-top">
+        <div class="brand">
+          <img class="logo" src="icon.png" alt="Logo Typing Test Indonesia" width="64" height="64">
+          <div>
+            <h1>Typing Test Indonesia</h1>
+            <p class="subtitle">Test kecepatan mengetik bahasa Indonesia — offline first</p>
+          </div>
+        </div>
+        <div class="header-actions">
+        <button class="btn btn-exit" id="exitBtn" title="Keluar aplikasi (Ctrl+Q)">Keluar</button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle tema">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="setup" id="setup">
+        <div class="card">
+          <h2>Pilih Mode</h2>
+          
+          <div class="option-group">
+            <label class="option-label">Jenis Teks</label>
+            <div class="radio-group" id="textType">
+              <label class="radio">
+                <input type="radio" name="textType" value="words" checked>
+                <span>Kata</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="textType" value="sentences">
+                <span>Kalimat</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="textType" value="paragraphs">
+                <span>Paragraf</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <label class="option-label">Tingkat Kesulitan</label>
+            <div class="radio-group" id="difficulty">
+              <label class="radio">
+                <input type="radio" name="difficulty" value="easy" checked>
+                <span>Mudah</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="difficulty" value="medium">
+                <span>Sedang</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="difficulty" value="hard">
+                <span>Sulit</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <label class="option-label">Waktu (detik)</label>
+            <div class="radio-group" id="duration">
+              <label class="radio">
+                <input type="radio" name="duration" value="15">
+                <span>15</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="duration" value="30" checked>
+                <span>30</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="duration" value="60">
+                <span>60</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="duration" value="120">
+                <span>120</span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" id="startBtn">Mulai Tes</button>
+          <button class="btn btn-outline btn-lg" id="manageTextsBtn">Kelola Teks</button>
+        </div>
+
+        <div class="card stats-preview" id="statsPreview">
+          <h3>Statistik Terbaik</h3>
+          <div class="stat-row">
+            <span>WPM Terbaik</span>
+            <strong id="bestWpm">0</strong>
+          </div>
+          <div class="stat-row">
+            <span>KPM Terbaik</span>
+            <strong id="bestKpm">0</strong>
+          </div>
+          <div class="stat-row">
+            <span>Akurasi Terbaik</span>
+            <strong id="bestAcc">0%</strong>
+          </div>
+          <div class="stat-row">
+            <span>Total Tes</span>
+            <strong id="totalTests">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="text-manager hidden" id="textManager">
+        <div class="card">
+          <div class="section-heading">
+            <div><h2>Kelola Teks</h2><p>Tambahkan teks latihan sendiri. Satu teks per baris.</p></div>
+            <button class="btn btn-secondary" id="closeManagerBtn">Tutup</button>
+          </div>
+          <div class="manager-actions">
+            <label class="btn btn-outline" for="importFile">Import TXT</label>
+            <input id="importFile" type="file" accept=".txt,text/plain" hidden>
+            <button class="btn btn-outline" id="exportFileBtn">Export TXT</button>
+            <button class="btn btn-danger" id="clearCustomBtn">Hapus Teks Tambahan</button>
+          </div>
+          <textarea class="custom-text-input" id="customTextInput" placeholder="Tulis satu kata, kalimat, atau paragraf per baris..."></textarea>
+          <div class="manager-footer"><span id="customTextCount">0 teks tambahan</span><button class="btn btn-primary" id="saveCustomBtn">Simpan Teks</button></div>
+        </div>
+      </section>
+
+      <section class="test hidden" id="test">
+        <div class="test-header">
+          <div class="timer" id="timer">30</div>
+          <div class="live-stats">
+            <div class="stat"><span id="liveWpm">0</span> WPM</div>
+            <div class="stat"><span id="liveKpm">0</span> KPM</div>
+            <div class="stat"><span id="liveAcc">100</span>% Akurasi</div>
+          </div>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="text-display" id="textDisplay" aria-live="polite"></div>
+
+        <textarea 
+          class="input-area hidden" 
+          id="inputArea" 
+          placeholder="Ketik di sini..."
+          aria-label="Area mengetik"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        ></textarea>
+
+        <div class="test-controls">
+          <button class="btn btn-secondary" id="restartBtn">Ulangi</button>
+          <button class="btn btn-secondary" id="quitBtn">Keluar</button>
+        </div>
+      </section>
+
+      <section class="results hidden" id="results">
+        <div class="card results-card">
+          <h2>Hasil Tes</h2>
+          
+          <div class="results-grid">
+            <div class="result-item highlight">
+              <div class="result-value" id="finalWpm">0</div>
+              <div class="result-label">WPM</div>
+            </div>
+            <div class="result-item">
+              <div class="result-value" id="finalKpm">0</div>
+              <div class="result-label">KPM</div>
+            </div>
+            <div class="result-item">
+              <div class="result-value" id="finalAcc">0%</div>
+              <div class="result-label">Akurasi</div>
+            </div>
+            <div class="result-item">
+              <div class="result-value" id="finalCorrect">0</div>
+              <div class="result-label">Benar</div>
+            </div>
+            <div class="result-item">
+              <div class="result-value" id="finalWrong">0</div>
+              <div class="result-label">Salah</div>
+            </div>
+            <div class="result-item">
+              <div class="result-value" id="finalTime">0s</div>
+              <div class="result-label">Waktu</div>
+            </div>
+          </div>
+
+          <div class="results-detail">
+            <h3>Detail</h3>
+            <div class="detail-row">
+              <span>Total Diketik</span>
+              <strong id="detailTotal">0</strong>
+            </div>
+            <div class="detail-row">
+              <span>Karakter Benar</span>
+              <strong id="detailCorrect">0</strong>
+            </div>
+            <div class="detail-row">
+              <span>Karakter Salah</span>
+              <strong id="detailWrong">0</strong>
+            </div>
+            <div class="detail-row">
+              <span>Konsistensi</span>
+              <strong id="detailConsistency">0%</strong>
+            </div>
+          </div>
+
+          <div class="results-actions">
+            <button class="btn btn-primary" id="retryBtn">Coba Lagi</button>
+            <button class="btn btn-secondary" id="homeBtn">Beranda</button>
+          </div>
+        </div>
+
+        <div class="card history-card">
+          <h3>Riwayat Terbaru</h3>
+          <div class="history-list" id="historyList"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Dibuat dengan <span class="heart">♥</span> untuk komunitas mengetik Indonesia</p>
+      <a class="donate-link" href="https://sociabuzz.com/bgzs" target="_blank" rel="noopener noreferrer">☕ Dukung project ini</a>
+      <p class="shortcut">Shortcut: <kbd>Ctrl</kbd>+<kbd>R</kbd> Ulangi · <kbd>Esc</kbd> Beranda · <kbd>Ctrl</kbd>+<kbd>Q</kbd> Keluar</p>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
